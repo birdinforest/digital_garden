@@ -38,7 +38,6 @@ export function getSortedPostsData() {
   });
 
   const activePostsData = allPostsData.filter(d => d.date !== undefined);
-  console.log(activePostsData)
 
   // Sort posts by date
   return activePostsData.sort(((a, b) => {
