@@ -25,6 +25,7 @@ export default function Home ({
 }: {
   allPostsData: {
     date: string
+    time?: string
     title: string
     id: string
   }[]
@@ -36,26 +37,29 @@ export default function Home ({
       </Head>
       <section className={utilStyles.headingMd}>
         {/*TODO: Update*/}
-        <p>Hello I am Derek. I'm a software engineer. You can contact at: {' '}
+        <p>Hello I am Derek. I'm a software engineer. You can contact me via: {' '}
           <a href="https://www.zhihu.com/people/wang-zheng-23-80">知乎</a>,
           {' '}
           <a href="https://www.linkedin.com/in/zheng-wang-derek/">Linkedin</a>, and
           {' '}
-          <a href="https://www.linkedin.com/in/zheng-wang-derek/">Linkedin</a>
+          <a href="https://github.com/birdinforest">Github</a>.
         </p>
       </section>
 
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
+          {allPostsData.map(({ id, date, time, title }) => (
             <li className={utilStyles.listItem} key={id}>
               <Link href={`/posts/${id}`}>
                 <a>{title}</a>
               </Link>
               <br />
               <small className={utilStyles.lightText}>
-                <Date dateString={date} />
+                {
+                  date &&
+                  <Date dateString={date} timeString={time} title={title}/>
+                }
               </small>
             </li>
           ))}
