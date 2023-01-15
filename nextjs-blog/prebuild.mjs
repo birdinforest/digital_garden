@@ -1,7 +1,10 @@
-const path = require('path');
-const fs = require('fs');
-const matter = require('gray-matter');
-const { Feed } = require('feed');
+import path from 'path';
+import fs from 'fs';
+import matter from 'gray-matter';
+import { Feed } from "feed";
+// import {getSortedPostsData, getPostData, PostMeta} from './lib/posts';
+import {remark} from "remark";
+import html from "remark-html";
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -16,7 +19,6 @@ async function generateRSSFeed(activePostsData) {
     id: `${siteUrl}`,
     // TODO: Add favicon.ico
     // favicon: "http://example.com/favicon.ico",
-    feed_url: `${siteUrl}/rss.xml`,
     copyright: "All rights reserved 2023, Derek Wang.",
     feedLinks: {
       json: `${siteUrl}/json`,
@@ -31,14 +33,16 @@ async function generateRSSFeed(activePostsData) {
   });
 
   activePostsData.forEach(post => {
-    feed.addItem({
-      title: post.title,
-      id: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
-      link: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
-      date: new Date(post.date),
-      description: post.description,
-      content: post.contentHtml,
-    })
+    const postData = getPostData(post.id).then(postData => {
+      feed.addItem({
+        title: post.title,
+        id: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
+        link: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
+        date: new Date(post.date),
+        description: post.description,
+        content: postData.contentHtml,
+      })
+    });
   })
   // The path should be /public/rss.xml folder.
   // The public folder in Next.js is used to store static assets like images and downloadable files.
@@ -65,6 +69,7 @@ async function generateRSSFeed(activePostsData) {
   });
 }
 
+// TODO: Find a way to import this function from `./lib/posts.tsx`
 async function getSortedPostsData() {
   // Get file names under `/posts`
   const fileNames = fs.readdirSync(postsDirectory);
@@ -101,10 +106,29 @@ async function getSortedPostsData() {
     }
   }));
 
-  // // Generate rss feed
-  // await generateRSSFeed(activePostsData);
-
   return activePostsData;
+}
+
+// TODO: Find a way to import this function from `./lib/posts.tsx`
+async function getPostData(id) {
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContent = fs.readFileSync(fullPath, 'utf8');
+
+  // Use gray-matter to parse the post metadata section
+  const matterResult = matter(fileContent);
+
+  // Use remark to convert markdown into HTML string
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content)
+  const contentHtml = processedContent.toString()
+
+  // Combine the data with the id
+  return {
+    id,
+    contentHtml,
+    ...matterResult.data
+  }
 }
 
 async function main() {
