@@ -10,7 +10,7 @@ const siteUrl = 'https://blog.birdinforest.com';
 async function generateRSSFeed(activePostsData) {
   // Create a new feed object
   const feed = new RSS({
-    title: "RSS feed of Derek's blog",
+    title: "Derek's blog",
     description: 'All blog posts.',
     feed_url: `${siteUrl}/rss.xml`,
     site_url: `${siteUrl}`,
@@ -21,7 +21,7 @@ async function generateRSSFeed(activePostsData) {
     feed.item({
       title: post.title,
       date: new Date(post.date),
-      URL: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
+      url: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
     })
   })
   // The path should be /public/rss.xml folder.
