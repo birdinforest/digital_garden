@@ -31,8 +31,9 @@ async function generateRSSFeed(activePostsData) {
     },
   });
 
-  activePostsData.forEach(post => {
-    const postData = getPostData(post.id).then(postData => {
+  for (const post of activePostsData) {
+    const postData = await getPostData(post.id);
+    activePostsData.forEach(post => {
       feed.addItem({
         title: post.title,
         id: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
@@ -42,7 +43,8 @@ async function generateRSSFeed(activePostsData) {
         content: postData.contentHtml,
       })
     });
-  })
+  }
+
   // The path should be /public/rss.xml folder.
   // The public folder in Next.js is used to store static assets like images and downloadable files.
   const fullFilePathAtom = path.join(process.cwd(), 'public', 'atom.xml');
