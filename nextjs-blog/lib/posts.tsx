@@ -11,6 +11,7 @@ const postsDirectory = path.join(process.cwd(), 'posts');
 export type PostMeta = {
   title: string,
   id: string,
+  description: string,
   contentHtml: string,
   date: string,
   time?: string,

@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const matter = require('gray-matter');
-const RSS = require('rss');
+const { Feed } = require('feed');
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -9,33 +9,59 @@ const siteUrl = 'https://blog.birdinforest.com';
 
 async function generateRSSFeed(activePostsData) {
   // Create a new feed object
-  const feed = new RSS({
+  const feed = new Feed({
     title: "Derek's blog",
     description: 'All blog posts.',
+    link: `${siteUrl}`,
+    id: `${siteUrl}`,
+    // TODO: Add favicon.ico
+    // favicon: "http://example.com/favicon.ico",
     feed_url: `${siteUrl}/rss.xml`,
-    site_url: `${siteUrl}`,
-    copyright: '(c) 2023 Derek Wang',
+    copyright: "All rights reserved 2023, Derek Wang.",
+    feedLinks: {
+      json: `${siteUrl}/json`,
+      atom: `${siteUrl}/atom`,
+    },
+    author: {
+      name: "Derek Wang",
+      email: "birdinforest@gmail.com",
+      // TODO: link profile
+      // link: "https://example.com/johndoe"
+    },
   });
 
   activePostsData.forEach(post => {
-    feed.item({
+    feed.addItem({
       title: post.title,
+      id: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
+      link: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
       date: new Date(post.date),
-      url: `${siteUrl}/posts/${post.id}?utm_source=rss&utm_medium=feed`,
+      description: post.description,
+      content: post.contentHtml,
     })
   })
   // The path should be /public/rss.xml folder.
   // The public folder in Next.js is used to store static assets like images and downloadable files.
-  const fullFilePath = path.join(process.cwd(), 'public', 'rss.xml');
+  const fullFilePathAtom = path.join(process.cwd(), 'public', 'atom.xml');
+  const fullFilePathRSS2 = path.join(process.cwd(), 'public', 'rss.xml');
   // Remove the old file
-  if (fs.existsSync(fullFilePath)) {
-    await fs.promises.unlink(fullFilePath)
+  if (fs.existsSync(fullFilePathAtom)) {
+    await fs.promises.unlink(fullFilePathAtom)
   }
-  fs.writeFile(fullFilePath, feed.xml(), err => {
+  if (fs.existsSync(fullFilePathRSS2)) {
+    await fs.promises.unlink(fullFilePathRSS2)
+  }
+  fs.writeFile(fullFilePathAtom, feed.atom1(), err => {
     if (err) {
-      console.log('RSS Generate Error: ', err)
+      console.log('Atom Generate Error: ', err)
     }
-    console.log('RSS Generate successes at ', fullFilePath)
+    console.log('Atom Generate successes at ', fullFilePathAtom)
+  });
+  fs.writeFile(fullFilePathRSS2, feed.rss2(), err => {
+    if (err) {
+      console.log('RSS2 Generate Error: ', err)
+    }
+    console.log('RSS2 Generate successes at ', fullFilePathRSS2)
   });
 }
 
