@@ -11,7 +11,7 @@ import { getSortedPostsData } from '../lib/posts'
 
 // Get static data and return as prop to `Home` component.
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
+  const allPostsData = await getSortedPostsData()
   return {
     props: {
       allPostsData
@@ -30,6 +30,7 @@ export default function Home ({
     id: string
   }[]
 }){
+
   return (
     <Layout home>
       <Head>
