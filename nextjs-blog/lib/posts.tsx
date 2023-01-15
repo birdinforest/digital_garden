@@ -8,7 +8,7 @@ import html from 'remark-html'
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
-type PostMeta = {
+export type PostMeta = {
   title: string,
   id: string,
   contentHtml: string,
@@ -16,7 +16,7 @@ type PostMeta = {
   time?: string,
 }
 
-export function getSortedPostsData() {
+export async function getSortedPostsData(): Promise<PostMeta[]> {
   // Get file names under `/posts`
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map(filename => {
@@ -33,8 +33,8 @@ export function getSortedPostsData() {
     // Combine the data with the id
     return {
       id,
-      ...matterResult.data as PostMeta
-    }
+      ...matterResult.data
+    } as PostMeta;
   });
 
   const activePostsData = allPostsData.filter(d => d.date !== undefined);
