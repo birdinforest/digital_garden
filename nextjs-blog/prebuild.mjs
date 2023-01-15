@@ -17,8 +17,7 @@ async function generateRSSFeed(activePostsData) {
     description: 'All blog posts.',
     link: `${siteUrl}`,
     id: `${siteUrl}`,
-    // TODO: Add favicon.ico
-    // favicon: "http://example.com/favicon.ico",
+    favicon: `${siteUrl}/favicon.ico`,
     copyright: "All rights reserved 2023, Derek Wang.",
     feedLinks: {
       json: `${siteUrl}/json`,
