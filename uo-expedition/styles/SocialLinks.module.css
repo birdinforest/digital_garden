@@ -1,0 +1,15 @@
+.socialLinks {
+    display: flex;
+    justify-content: left;
+    margin-top: 1rem;
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 1rem;
+}
+
+.icon:last-child {
+    margin-right: 0;
+}
