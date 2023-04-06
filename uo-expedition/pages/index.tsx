@@ -16,6 +16,7 @@ const players = [
 ];
 
 const imageUrl = '/images/gypsyanimate-transparent-low.gif';
+const logo = '/images/uo_expedition_logo_02_250_1C1818.jpg';
 
 const Home: NextPage = () => {
   const [stats, setStats] = useState<string | undefined>(undefined);
@@ -80,7 +81,10 @@ const Home: NextPage = () => {
     <main className={styles.main}>
       <div className={styles.twoColumnLayout}>
         <div className={styles.leftColumn}>
-          <h2 className={`${styles.title} ${styles.textLight}`}>UO：Expedition(远征)</h2>
+          {/*<Logo />*/}
+          <div className={styles.header}>
+            <h2 className={`${styles.title} ${styles.textLight}`}>UO：Expedition(远征)</h2>
+          </div>
           <p className={`${styles.textLight}`}>IP: 8.210.214.69:2593</p>
           <SocialLinks />
           <ServerStatistics isFetching={isFetchingStats} playerCount={stats} players={undefined} />
