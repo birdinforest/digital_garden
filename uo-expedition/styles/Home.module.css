@@ -10,6 +10,12 @@
   font-family: Arial, sans-serif;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -114,6 +120,10 @@
 
 .textLight {
   color: #F0E9E9;
+}
+
+.textGoldenrod {
+  color: #DAA520;
 }
 
 .colourSuccess {

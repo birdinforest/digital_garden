@@ -1,0 +1,7 @@
+/* components/Logo.module.css */
+
+.logo {
+    width: 128px;
+    height: auto;
+    margin-right: 1rem;
+}
