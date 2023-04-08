@@ -38,12 +38,12 @@ function MyApp({Component, pageProps}: AppProps) {
             }}
           />
         {/* Global Site Tag (gtag.js) - Google Analytics */}
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-        />
         <link rel="icon" href="/images/uo_expedition_logo_02_250.jpg"/>
       </Head>
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+      />
       <Component {...pageProps} />
     </>
   )
