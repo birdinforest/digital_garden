@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/Home.module.css';
 import SocialLinks from "../components/SocialLinks";
+import { MusicPlayer } from "../components/MusicPlayer";
 
 const players = [
   { id: 1, name: 'Player 1' },
@@ -71,12 +72,7 @@ const Home: NextPage = () => {
 
   return (
   <div className={styles.container}>
-    {/* Update the audio element */}
-    <audio ref={audioRef} src="/audio/stones.mp3" loop />
-    {/* Add a mini player button */}
-    <button onClick={togglePlayback} className={styles.miniPlayer}>
-      <FontAwesomeIcon icon={isPlaying ? faPauseCircle : faPlayCircle} />
-    </button>
+    <MusicPlayer src={'/audio/stones.mp3'} loop={true} />
 
     <main className={styles.main}>
       <div className={styles.twoColumnLayout}>

@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
-import { Simulate } from "react-dom/test-utils";
-import input = Simulate.input;
 
 interface Player {
     id: number;
@@ -16,8 +14,9 @@ interface ServerStatisticsProps {
     isFetching: boolean;
 }
 
-const ServerStatistics: React.FC<ServerStatisticsProps> = ({playerCount, players, isFetching}) => {
-
+const ServerStatistics: React.FC<ServerStatisticsProps> = (
+  {playerCount, players, isFetching}
+) => {
     return (
         <div>
             {isFetching
